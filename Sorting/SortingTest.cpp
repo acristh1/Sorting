@@ -82,6 +82,7 @@ inline void InsertSort(RandomAccessIterator start, RandomAccessIterator end, Les
 		tempFin = *temp;
 
 	}
+	cout << "sdfdgdfg";
 
 	
 	for (auto i = start; i < end; i++) {
