@@ -69,18 +69,10 @@ inline void YaroslavskiyQuickSort(RandomAccessIterator start, RandomAccessIterat
 	YaroslavskiyQuickSort(start, end, lessThan);
 }
 
-template <typename RandomAccessIterator>
-inline void change(RandomAccessIterator start, RandomAccessIterator end) {
-	auto n = *start;
-	*start = *end;
-	*end = n;
-}
- 
+
 template <typename RandomAccessIterator, typename LessThan>
 inline void InsertSort(RandomAccessIterator start, RandomAccessIterator end, LessThan &lessThan) {
-	// Adicione el código de Insertion Sort.
-	
-	
+		
 	for (auto i = start+1 ; i < end; i++) {
 		auto tempS = i;
 		auto tempP = (i - 1);
@@ -107,7 +99,25 @@ inline void InsertSort(RandomAccessIterator start, RandomAccessIterator end, Les
 
 template <typename RandomAccessIterator, typename LessThan>
 inline void SelectSort(RandomAccessIterator start, RandomAccessIterator end, LessThan &lessThan) {
-	// Adicione el código de Selection Sort.
+	auto pos_min = start;
+
+	for (auto i = start; i < end-1 ; i++) {
+		pos_min = i;
+		for (auto j = i + 1; j < end; j++) {
+			if (*j < *pos_min)
+				pos_min = j;
+		}
+		if (*pos_min < *i) 
+			iter_swap(i, pos_min);
+		
+		
+	}
+	cout << endl;
+	for (auto i = start; i < end; i++) {
+		cout << *i << " ";
+	}
+
+	cout << endl;
 }
 
 template <typename RandomAccessIterator, typename LessThan>
