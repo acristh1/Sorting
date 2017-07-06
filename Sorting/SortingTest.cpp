@@ -69,30 +69,40 @@ inline void YaroslavskiyQuickSort(RandomAccessIterator start, RandomAccessIterat
 	YaroslavskiyQuickSort(start, end, lessThan);
 }
 
-
+template <typename RandomAccessIterator>
+inline void change(RandomAccessIterator start, RandomAccessIterator end) {
+	auto n = *start;
+	*start = *end;
+	*end = n;
+}
+ 
 template <typename RandomAccessIterator, typename LessThan>
 inline void InsertSort(RandomAccessIterator start, RandomAccessIterator end, LessThan &lessThan) {
 	// Adicione el código de Insertion Sort.
 	
-	auto tempIni = start;
-	auto tempFin = start + 1;
-	if (*tempIni > *tempFin) {
-		auto temp = *start;
-		tempIni = *tempFin;
-		tempFin = *temp;
-
-	}
-	cout << "sdfdgdfg";
-
 	
-	for (auto i = start; i < end; i++) {
+	for (auto i = start+1 ; i < end; i++) {
+		auto tempS = i;
+		auto tempP = (i - 1);
 		
-		cout << *i <<" ";
+			while (tempP >=start &&  *tempP > *tempS) {
+				if (tempP == start)
+					iter_swap(tempP, tempS);
+				else {
+					iter_swap(tempP, tempS);
+					tempS = tempS - 1;
+					tempP = tempP - 1;
+				}
+			}
+		
 	}
+	for (auto i = start; i < end; i++) {
+		cout << *i << " ";
+	}
+
+	cout << endl;
 	
-	cout <<"fin insert sort"<< endl;
-
-
+	
 }
 
 template <typename RandomAccessIterator, typename LessThan>
@@ -137,17 +147,27 @@ inline void YaroslavskiyQuickSort(RandomAccessIterator start, RandomAccessIterat
 
 int main(int argc, char** argv) {
 	typedef void(*SORT_ALGORITHM)(std::vector<int>::iterator, std::vector<int>::iterator);
-	for (auto & i : { 100/*,1000,10'000,100'000,1'000'000,10000000,100000000 */}) {
+	for (//auto & i : { 100/*,1000,10'000,100'000,1'000'000,10000000,100000000 */ }) {
+		auto & i :{10}){
 		std::vector<int> w(i), v;
 		std::iota(w.begin(), w.end(), 1);
-		for (auto a = w.begin(), _a = w.begin() + i / 100; _a < w.end(); _a += i / 100)
+		for (auto a = w.begin(), _a = w.begin() + i / 10; a <w.end()-1; _a += i / 10)
 		{
 			std::shuffle(a, _a, std::default_random_engine(std::time(0)));
 			a = _a;
 		}
+
 		// retire el comentario para estudiar datos completamente desordenados:
-		std::shuffle (w.begin(), w.end(), std::default_random_engine(std::time(0)));
-		std::vector<SORT_ALGORITHM> sort_algorithms = { InsertSort , SelectSort, StableSelectSort, HeapSort, MergeSort, IterativeMergeSort, LomutoQuickSort, HoareQuickSort 	};
+		std::shuffle(w.begin(), w.end(), std::default_random_engine(std::time(0)));
+		
+		cout << " vector ";
+		for (auto i = w.begin () ; i < w.end(); i++) {
+			cout << *i << " ";
+		}
+		cout << endl;
+
+
+		std::vector<SORT_ALGORITHM> sort_algorithms = { InsertSort , SelectSort, StableSelectSort, HeapSort, MergeSort, IterativeMergeSort, LomutoQuickSort, HoareQuickSort };
 		if (i > 100000 && i < 100000000)
 		{
 			sort_algorithms = { HeapSort, MergeSort, IterativeMergeSort, LomutoQuickSort, HoareQuickSort };
@@ -158,7 +178,7 @@ int main(int argc, char** argv) {
 			sort_algorithms = { IterativeMergeSort, LomutoQuickSort, HoareQuickSort };
 			std::cout << "-, -, -, -, -, ";
 		}
-	
+
 		for (auto & sort_algorithm : sort_algorithms) {
 			v = w;
 			std::clock_t inicio = std::clock();
