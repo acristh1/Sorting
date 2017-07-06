@@ -122,7 +122,30 @@ inline void SelectSort(RandomAccessIterator start, RandomAccessIterator end, Les
 
 template <typename RandomAccessIterator, typename LessThan>
 inline void StableSelectSort(RandomAccessIterator start, RandomAccessIterator end, LessThan &lessThan) {
-	// Adicione el código de Selection Sort estable.
+	
+	for (auto i = start; i < end; i++) {
+		auto  min = i;
+		auto m = i;
+		for (auto j = i + 1; j < end;j++) {
+			if (*j < *min) {
+				min = j;
+				m = j;
+			}
+		}
+		for (auto c = m ; c >i+1 ;c--) {
+			*c = *(c - 1);
+		}
+		i = min;
+		//iter_swap(i, min);
+		
+	}
+
+	cout << endl;
+	for (auto i = start; i < end; i++) {
+		cout << *i << " ";
+	}
+
+	cout << endl;
 }
 
 template <typename RandomAccessIterator, typename LessThan>
@@ -131,8 +154,16 @@ inline void HeapSort(RandomAccessIterator start, RandomAccessIterator end, LessT
 }
 
 template <typename RandomAccessIterator, typename LessThan>
+inline void Merge(RandomAccessIterator start, RandomAccessIterator end, LessThan &lessThan) {
+	
+}
+
+template <typename RandomAccessIterator, typename LessThan>
 inline void MergeSort(RandomAccessIterator start, RandomAccessIterator end, LessThan &lessThan) {
-	// Adicione el código de Merge Sort.
+	if (start < end) {
+		int mid = ( end) / 2;  
+		cout << mid;
+	}
 }
 
 template <typename RandomAccessIterator, typename LessThan>
