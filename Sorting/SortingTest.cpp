@@ -88,12 +88,13 @@ inline void InsertSort(RandomAccessIterator start, RandomAccessIterator end, Les
 			}
 		
 	}
+	/*
 	for (auto i = start; i < end; i++) {
 		cout << *i << " ";
 	}
 
 	cout << endl;
-	
+	*/
 	
 }
 
@@ -112,12 +113,14 @@ inline void SelectSort(RandomAccessIterator start, RandomAccessIterator end, Les
 		
 		
 	}
+	/*
 	cout << endl;
 	for (auto i = start; i < end; i++) {
 		cout << *i << " ";
 	}
 
 	cout << endl;
+	*/
 }
 
 template <typename RandomAccessIterator, typename LessThan>
@@ -139,13 +142,14 @@ inline void StableSelectSort(RandomAccessIterator start, RandomAccessIterator en
 		//iter_swap(i, min);
 		
 	}
-
+	/*
 	cout << endl;
 	for (auto i = start; i < end; i++) {
 		cout << *i << " ";
 	}
 
 	cout << endl;
+	*/
 }
 
 template <typename RandomAccessIterator, typename LessThan>
@@ -154,7 +158,53 @@ inline void HeapSort(RandomAccessIterator start, RandomAccessIterator end, LessT
 }
 
 template <typename RandomAccessIterator, typename LessThan>
-inline void Merge(RandomAccessIterator start, RandomAccessIterator end, LessThan &lessThan) {
+inline void Merge(RandomAccessIterator start, RandomAccessIterator end, RandomAccessIterator mid, LessThan &lessThan) {
+	auto it = start;
+	auto it2 = mid;
+	
+	std::vector<int> v;//vector del tipo del contenido de it.
+
+	while (it < mid&&it2 < end)
+	{
+		if (*it <= *it2)
+		{
+			v.push_back(*it);
+			it++;
+		}
+		else
+		{
+			v.push_back(*it2);
+			it2++;
+		}
+	}
+	while (it < mid)
+	{
+		v.push_back(*it);
+		it++;
+	}
+	if (it2 < end)
+	{
+		v.push_back(*it2);
+		it2++;
+	}
+	it = start;
+	for each (auto var in v)
+	{
+		*it = var;
+		it++;
+	}
+	/*
+	while (it2 < end)
+	{
+		it = it2;
+		while (it != start && *it > *(it - 1))
+		{
+			iter_swap(it, it - 1);
+			it--;
+		}
+		it2++;
+	}
+	*/
 	
 }
 
@@ -167,7 +217,18 @@ inline void MergeSort(RandomAccessIterator start, RandomAccessIterator end, Less
 		contador++;
 		it++;
 	}
-	cout << "tamaño del vector"<<contador<<endl;
+
+	if (contador <= 1)
+		return;
+
+	int mid = contador / 2;
+	it = start+mid;
+	MergeSort(start, it);
+	MergeSort(it, end);
+	if (*(it-1) <= *it)
+		return;
+	else
+		Merge(start, end, it, lessThan);
 }
 
 template <typename RandomAccessIterator, typename LessThan>
@@ -193,10 +254,10 @@ inline void YaroslavskiyQuickSort(RandomAccessIterator start, RandomAccessIterat
 int main(int argc, char** argv) {
 	typedef void(*SORT_ALGORITHM)(std::vector<int>::iterator, std::vector<int>::iterator);
 	for (//auto & i : { 100/*,1000,10'000,100'000,1'000'000,10000000,100000000 */ }) {
-		auto & i :{100}){
+		auto & i :{100,1'000,10'000}){
 		std::vector<int> w(i), v;
 		std::iota(w.begin(), w.end(), 1);
-		for (auto a = w.begin(), _a = w.begin() + i / 100; a <w.end()-1; _a += i / 100)
+		for (auto a = w.begin(), _a = w.begin() + i / 100; _a <w.end(); _a += i / 100)
 		{
 			std::shuffle(a, _a, std::default_random_engine(std::time(0)));
 			a = _a;
@@ -204,16 +265,16 @@ int main(int argc, char** argv) {
 
 		// retire el comentario para estudiar datos completamente desordenados:
 		//std::shuffle(w.begin(), w.end(), std::default_random_engine(std::time(0)));
-		
+		/*
 		cout << " vector ";
 		for (auto i = w.begin () ; i < w.end(); i++) {
 			cout << *i << " ";
 		}
 		cout << endl;
-
-
+		*/
+		//MergeSort(w.begin(), w.end());
 		std::vector<SORT_ALGORITHM> sort_algorithms = { InsertSort , SelectSort, StableSelectSort, HeapSort, MergeSort, IterativeMergeSort, LomutoQuickSort, HoareQuickSort };
-		if (i > 100000 && i < 100000000)
+		if (i >= 100'000 && i < 100'000'000)
 		{
 			sort_algorithms = { HeapSort, MergeSort, IterativeMergeSort, LomutoQuickSort, HoareQuickSort };
 			std::cout << "-, -, -, ";
