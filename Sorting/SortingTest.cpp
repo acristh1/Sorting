@@ -160,10 +160,14 @@ inline void Merge(RandomAccessIterator start, RandomAccessIterator end, LessThan
 
 template <typename RandomAccessIterator, typename LessThan>
 inline void MergeSort(RandomAccessIterator start, RandomAccessIterator end, LessThan &lessThan) {
-	if (start < end) {
-		int mid = ( end) / 2;  
-		cout << mid;
+	auto it = start;
+	int contador = 0;
+	while (it<end)
+	{
+		contador++;
+		it++;
 	}
+	cout << "tamaño del vector"<<contador<<endl;
 }
 
 template <typename RandomAccessIterator, typename LessThan>
@@ -189,17 +193,17 @@ inline void YaroslavskiyQuickSort(RandomAccessIterator start, RandomAccessIterat
 int main(int argc, char** argv) {
 	typedef void(*SORT_ALGORITHM)(std::vector<int>::iterator, std::vector<int>::iterator);
 	for (//auto & i : { 100/*,1000,10'000,100'000,1'000'000,10000000,100000000 */ }) {
-		auto & i :{10}){
+		auto & i :{100}){
 		std::vector<int> w(i), v;
 		std::iota(w.begin(), w.end(), 1);
-		for (auto a = w.begin(), _a = w.begin() + i / 10; a <w.end()-1; _a += i / 10)
+		for (auto a = w.begin(), _a = w.begin() + i / 100; a <w.end()-1; _a += i / 100)
 		{
 			std::shuffle(a, _a, std::default_random_engine(std::time(0)));
 			a = _a;
 		}
 
 		// retire el comentario para estudiar datos completamente desordenados:
-		std::shuffle(w.begin(), w.end(), std::default_random_engine(std::time(0)));
+		//std::shuffle(w.begin(), w.end(), std::default_random_engine(std::time(0)));
 		
 		cout << " vector ";
 		for (auto i = w.begin () ; i < w.end(); i++) {
